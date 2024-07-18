@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int maxElement = INT_MIN;
+        unordered_map<int,int>mpp;
+        int ans = 0;
+        for(auto &it : nums){
+            mpp[it]++;
+            if(mpp[it] > maxElement){
+                ans = it;
+                maxElement = mpp[it];
+            }
+        }
+
+        return ans;
+    }
+};
