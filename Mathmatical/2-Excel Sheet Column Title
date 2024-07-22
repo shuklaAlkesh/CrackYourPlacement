@@ -1,0 +1,15 @@
+class Solution {
+public:
+    string convertToTitle(int columnNumber) {
+        string ans = "";
+
+        while(columnNumber > 0){ //time complexity is : O(log(N))
+            columnNumber--;
+            int n = columnNumber%26;
+            ans += 'A'+n;
+            columnNumber = columnNumber/26;
+        }
+        reverse(ans.begin(),ans.end()); // time complexity is O(log(N))
+        return ans;
+    }
+};
