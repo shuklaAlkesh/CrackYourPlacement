@@ -1,0 +1,45 @@
+class Solution 
+{
+    public:
+    //Function to find the minimum number of swaps required to sort the array. 
+	int minSwaps(vector<int>&nums)
+	{
+	    int n = nums.size();
+    
+    // Create a pair of (value, index) and sort it
+    vector<pair<int, int>> arr(n);
+    for (int i = 0; i < n; i++) {
+        arr[i] = {nums[i], i};
+    }
+    sort(arr.begin(), arr.end());
+    
+    // Visited array to mark visited elements
+    vector<bool> visited(n, false);
+    int swaps = 0;
+
+    // Traverse the array elements
+    for (int i = 0; i < n; i++) {
+        // If already visited or in the right place, skip
+        if (visited[i] || arr[i].second == i) {
+            continue;
+        }
+
+        // Calculate the size of the cycle
+        int cycle_size = 0;
+        int j = i;
+        
+        while (!visited[j]) {
+            visited[j] = true;
+            j = arr[j].second;
+            cycle_size++;
+        }
+
+        // If there is a cycle of size > 1, add (cycle_size - 1) to swaps
+        if (cycle_size > 1) {
+            swaps += (cycle_size - 1);
+        }
+    }
+
+    return swaps;
+	}
+};
