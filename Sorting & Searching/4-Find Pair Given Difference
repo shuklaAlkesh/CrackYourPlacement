@@ -1,0 +1,23 @@
+class Solution {
+  public:
+    int findPair(int n, int x, vector<int> &arr) {
+        unordered_map<int,int> mpp;
+        
+        for(int i=0;i<n;i++){
+            mpp[arr[i]] = i;
+        }
+        
+        for(int i=0;i<n;i++){
+            int num = arr[i];   // a - b = x or b - a = x
+            int target1 = num + x; 
+            int target2 = num - x;
+            if(mpp.find(target1) != mpp.end() && mpp[target1] != i){
+                return 1;
+            }
+            if(mpp.find(target2) != mpp.end() && mpp[target2] != i){
+                return 1;
+            }
+        }
+        return -1;
+    }
+};
