@@ -1,0 +1,36 @@
+// First Approach
+// class Solution {
+// public:
+//     int minMoves2(vector<int>& nums) {
+//         int n = nums.size();
+//         int minMoves = INT_MAX;
+//         for(int i=0;i<n;i++){
+//             int ans = 0;
+//             for(int j = 0;j<n;j++){
+//                 if(i != j){
+//                     ans += abs(nums[i] - nums[j]);
+//                 }
+//             }
+//             minMoves = min(minMoves, ans);
+//         }
+//         return minMoves;
+//     }
+// };
+
+// Second Approach 
+class Solution {
+public:
+    int minMoves2(vector<int>& nums) {
+        int n = nums.size();
+        int minMoves = 0;
+
+        sort(nums.begin(),nums.end()); // O(Nlog(N))
+        int middleElement = nums[n/2]; // median element
+
+        for(auto& it : nums){
+            minMoves += abs(it - middleElement);
+        }
+        
+        return minMoves;
+    }
+};
