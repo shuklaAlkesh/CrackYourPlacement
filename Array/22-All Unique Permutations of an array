@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    void solve(map<int, int>& mpp, vector<int>& temp, vector<vector<int>>& result, int n) {
+        if (temp.size() == n) {
+            result.push_back(temp);
+            return;
+        }
+        
+        for (auto& it : mpp) {
+            int num = it.first;
+            int count = it.second;
+            
+            if (count == 0) {
+                continue;
+            }
+            temp.push_back(num);
+            mpp[num]--;
+            
+            solve(mpp, temp, result, n);
+            
+            temp.pop_back();
+            mpp[num]++;
+        }
+    }
+    
+    vector<vector<int>> uniquePerms(vector<int>& arr, int n) {
+        map<int, int> mpp;
+        
+        for (auto& num : arr) {
+            mpp[num]++;
+        }
+        
+        vector<int> temp;
+        vector<vector<int>> result;
+        solve(mpp, temp, result, n);
+        return result;
+    }
+};
