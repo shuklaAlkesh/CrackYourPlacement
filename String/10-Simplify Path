@@ -32,7 +32,7 @@ public:
     }
 };
 
-// Second the Solution
+// Second Approach
 
 class Solution {
 public:
