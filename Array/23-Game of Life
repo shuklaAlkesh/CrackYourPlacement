@@ -1,0 +1,45 @@
+class Solution {
+public:
+    bool isValidNeighbour(int x, int y, vector<vector<int>>& board){
+        return (x >= 0 && x < board.size() && y >= 0 && y < board[0].size());
+    }
+    void gameOfLife(vector<vector<int>>& board) {
+        // for 8 neighbour side
+        int dx[] = {0,1,1,1,0,-1,-1,-1};
+        int dy[] = {1,1,0,-1,-1,-1,0,1};
+
+        int n = board.size();
+        int m = board[0].size();
+
+        for(int row=0;row<n;row++){
+            for(int col=0;col<m;col++){
+                 int totalLiveCount = 0;
+                for(int i=0;i<8;i++){
+                    int currX = row + dx[i];
+                    int currY = col + dy[i];
+                    if(isValidNeighbour(currX,currY,board) && abs(board[currX][currY]) == 1){
+                        totalLiveCount++;
+                    }
+                }
+
+                if(board[row][col] == 1 && (totalLiveCount < 2 || totalLiveCount > 3)){
+                    board[row][col] = -1; // for dead
+                }
+
+                if(board[row][col] == 0 && totalLiveCount == 3){
+                    board[row][col] = 2; // for live
+                }
+            }
+        }
+
+        for(int row=0;row<n;row++){
+            for(int col=0;col<m;col++){
+                if(board[row][col] >= 1){
+                    board[row][col] = 1;
+                }else{
+                    board[row][col] = 0;
+                }
+            }
+        }
+    }
+};
