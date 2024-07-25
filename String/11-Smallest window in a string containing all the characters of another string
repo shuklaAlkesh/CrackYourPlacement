@@ -1,0 +1,209 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find the smallest window in the string s consisting
+    //of all the characters of string p.
+    string smallestWindow (string s, string p)
+    {
+        // First Approach But Time limit Exceed
+        // if (p.empty()) return "-1";
+        // if (p.length() > s.length()) return "-1";
+        // if (s == p) return s;
+    
+        // unordered_map<char, int> pmpp;
+        // unordered_map<char, int> smpp;
+        
+        // for (char ch : p) {
+        //     pmpp[ch]++;
+        // }
+    
+        // int current_length = 0;
+        // int totalLen = pmpp.size();
+        // int l = 0;
+        // int r = 0;
+        // int count = 0;
+        // string res = "-1";
+        // int minLength = INT_MAX;
+    
+        // while (r < s.length()) {
+        //     char ch = s[r];
+        //     smpp[ch]++;
+    
+        //     if (pmpp.find(ch) != pmpp.end() && smpp[ch] == pmpp[ch]) {
+        //         count++;
+        //     }
+    
+        //     while (count == totalLen && l <= r) {
+        //         if (r - l + 1 < minLength) {
+        //             minLength = r - l + 1;
+        //             res = s.substr(l, minLength);
+        //         }
+    
+        //         char leftChar = s[l];
+        //         smpp[leftChar]--;
+        //         if (pmpp.find(leftChar) != pmpp.end() && smpp[leftChar] < pmpp[leftChar]) {
+        //             count--;
+        //         }
+        //         l++;
+        //     }
+    
+        //     r++;
+        // }
+    
+        // return res;
+        
+        // Second Approach But Time limit Exceed
+//         if (p.empty()) return "-1";
+//         if (p.length() > s.length()) return "-1";
+//         unordered_map<char, int> pmpp;
+//         for (char ch : p) {
+//             pmpp[ch]++;
+//         }
+    
+//         int required = pmpp.size();
+//         unordered_map<char, int> smpp;
+//         int formed = 0;
+    
+//         int l = 0, r = 0;
+//         int minLength = INT_MAX;
+//         int start = 0;
+    
+//         while (r < s.length()) {
+//             char ch = s[r];
+//             smpp[ch]++;
+    
+//             if (pmpp.find(ch) != pmpp.end() && smpp[ch] == pmpp[ch]) {
+//                 formed++;
+//             }
+    
+//             while (l <= r && formed == required) {
+//                 ch = s[l];
+//                 if (r - l + 1 < minLength) {
+//                     minLength = r - l + 1;
+//                     start = l;
+//                 }
+    
+//                 smpp[ch]--;
+//                 if (pmpp.find(ch) != pmpp.end() && smpp[ch] < pmpp[ch]) {
+//                     formed--;
+//                 }
+//                 l++;
+//             }
+//             r++;
+//         }
+    
+//         return minLength == INT_MAX ? "-1" : s.substr(start, minLength);
+
+  
+  // third Approach But Time limit Exceed
+//   if (p.empty()) return "-1";
+//     if (p.length() > s.length()) return "-1";
+
+//     unordered_map<char, int> pmpp;
+//     for (char ch : p) {
+//         pmpp[ch]++;
+//     }
+
+//     int required = pmpp.size();
+//     unordered_map<char, int> smpp;
+//     int formed = 0;
+
+//     int l = 0, r = 0;
+//     int minLength = INT_MAX;
+//     int start = 0;
+
+//     while (r < s.length()) {
+//         char ch = s[r];
+//         smpp[ch]++;
+
+//         if (pmpp.find(ch) != pmpp.end() && smpp[ch] == pmpp[ch]) {
+//             formed++;
+//         }
+
+//         while (l <= r && formed == required) {
+//             char leftChar = s[l];
+
+//             if (r - l + 1 < minLength) {
+//                 minLength = r - l + 1;
+//                 start = l;
+//             }
+
+//             smpp[leftChar]--;
+//             if (pmpp.find(leftChar) != pmpp.end() && smpp[leftChar] < pmpp[leftChar]) {
+//                 formed--;
+//             }
+//             l++;
+//         }
+//         r++;
+//     }
+
+//     return minLength == INT_MAX ? "-1" : s.substr(start, minLength);
+
+// Fifth Approach best Approach without using map
+    if (p.empty() || p.length() > s.length()) return "-1";
+
+    vector<int> charCountP(256, 0);
+    vector<int> charCountS(256, 0);
+
+    for (char c : p) {
+        charCountP[c]++;
+    }
+
+    int required = p.length();
+    int minLength = INT_MAX;
+    int start = 0, startIndex = -1;
+    int count = 0;
+
+    for (int end = 0; end < s.length(); end++) {
+        char c = s[end];
+        charCountS[c]++;
+
+        if (charCountP[c] != 0 && charCountS[c] <= charCountP[c]) {
+            count++;
+        }
+
+        if (count == required) {
+            while (charCountS[s[start]] > charCountP[s[start]] || charCountP[s[start]] == 0) {
+                if (charCountS[s[start]] > charCountP[s[start]]) {
+                    charCountS[s[start]]--;
+                }
+                start++;
+            }
+
+            int windowLen = end - start + 1;
+            if (minLength > windowLen) {
+                minLength = windowLen;
+                startIndex = start;
+            }
+        }
+    }
+
+    return (startIndex == -1) ? "-1" : s.substr(startIndex, minLength);
+    }
+};
+
+
+//{ Driver Code Starts.
+int main()
+ {
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s;
+        cin>>s;
+        string pat;
+        cin>>pat;
+        Solution obj;
+        cout<<obj.smallestWindow(s, pat)<<endl;
+        
+    }
+	return 0;
+}
+// } Driver Code Ends
