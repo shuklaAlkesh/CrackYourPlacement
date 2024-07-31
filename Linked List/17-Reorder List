@@ -1,0 +1,37 @@
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr || head->next->next == nullptr)
+            return;
+        
+        // Find the middle of the list
+        ListNode *slow = head, *fast = head;
+        while (fast->next != nullptr && fast->next->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        // Reverse the second half of the list
+        ListNode* prev = nullptr;
+        ListNode* curr = slow->next;
+        while (curr != nullptr) {
+            ListNode* nextNode = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+        slow->next = nullptr;
+        
+        // Merge the two halves
+        ListNode* p1 = head;
+        ListNode* p2 = prev;
+        while (p1 != nullptr && p2 != nullptr) {
+            ListNode* temp1 = p1->next;
+            ListNode* temp2 = p2->next;
+            p1->next = p2;
+            p2->next = temp1;
+            p1 = temp1;
+            p2 = temp2;
+        }
+    }
+};
