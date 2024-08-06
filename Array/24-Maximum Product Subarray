@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        // First Approach
+        // int n = nums.size();
+        // long long int maxProduct = nums[0];
+        // long long prefixProduct = 1;
+        // long long suffixProduct = 1;
+
+        // for (int i = 0; i < n; ++i) {
+        //     if (prefixProduct == 0) {
+        //         prefixProduct = 1;
+        //     }
+        //     prefixProduct *= nums[i];
+        //     maxProduct = max(maxProduct, prefixProduct);
+        // }
+
+        // for (int i = n-1; i >= 0; i--) {
+        //     if (suffixProduct == 0) {
+        //         suffixProduct = 1;
+        //     }
+        //     suffixProduct *= nums[i];
+        //     maxProduct = max(maxProduct, suffixProduct);
+        // }
+
+
+        // return maxProduct;
+
+        // Second Approach
+        int n = nums.size();
+        if (n == 0) return 0;
+
+        // Initialize variables
+        int maxProduct = nums[0];
+        int minProduct = nums[0];
+        int result = nums[0];
+
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] < 0) {
+                // Swap maxProduct and minProduct when nums[i] is negative
+                swap(maxProduct, minProduct);
+            }
+
+            // Update maxProduct and minProduct
+            maxProduct = max((long long)nums[i], (long long)nums[i] * maxProduct);
+            minProduct = min((long long)nums[i], (long long)nums[i] * minProduct);
+
+            // Update result
+            result = max(result, maxProduct);
+        }
+
+        return result;
+    }
+};
