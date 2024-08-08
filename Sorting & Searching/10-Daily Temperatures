@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int>answer(n,0);
+        // First Approach and having Time Complexity is O(N^2)
+        // for(int i=0;i<n-1;i++){
+        //     int count = 0;
+        //     for(int j=i+1;j<n;j++){
+        //         count++;
+        //         if(temperatures[j] > temperatures[i]){
+        //             answer[i] = count;
+        //             break;
+        //         }
+        //     }
+        // }
+
+        // Now Second Approach which is by using stack (Monotonic stack)
+        stack<int>st;
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && temperatures[i] >= temperatures[st.top()]){
+                st.pop();
+            }
+
+            if(st.empty()){
+                answer[i] = 0;
+            }else{
+                answer[i] =  st.top()-i;
+            }
+            
+            st.push(i);
+        }
+
+        return answer;
+
+    }
+};
