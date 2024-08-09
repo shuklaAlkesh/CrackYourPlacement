@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> result;
+        map<int,map<int,multiset<int>>> nodes; // {vecticle,{level,data}}
+        queue<pair<TreeNode*,pair<int,int>>>q; // {TreeNode*,{vecticle,level}};
+        q.push({root,{0,0}});
+
+        while(!q.empty()){
+            TreeNode* p = q.front().first;
+            int x = q.front().second.first; // verticle
+            int y = q.front().second.second; // level
+            q.pop();
+            nodes[x][y].insert(p->val);
+            if(p->left != NULL){
+                q.push({p->left,{x-1,y+1}});
+            }
+            if(p->right != NULL){
+                q.push({p->right,{x+1,y+1}});
+            }
+        }
+
+        for(auto p : nodes){
+            vector<int>nums;
+            for(auto it : p.second){
+                nums.insert(nums.end(),it.second.begin(),it.second.end());
+            }
+            result.push_back(nums);
+        }
+        return result;
+    }
+};
