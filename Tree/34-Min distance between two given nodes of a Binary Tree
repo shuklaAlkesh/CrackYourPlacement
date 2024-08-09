@@ -1,0 +1,50 @@
+class Solution{
+    public:
+    /* Should return minimum distance between a and b
+    in a tree with given root*/
+    Node* Lca(Node* root,int a, int b){
+        if(root == NULL){
+            return NULL;
+        }
+        
+        if(root->data == a || root->data == b){
+            return root;
+        }
+        
+        Node* Llca = Lca(root->left,a,b);
+        Node* Rlca = Lca(root->right,a,b);
+        
+        if(Llca != NULL && Rlca != NULL){
+            return root;
+        }
+        if(Llca != NULL){
+            return Llca;
+        }
+        return Rlca;
+    }
+    
+    int height(Node* root,int x){
+        if(root == NULL){
+            return 1e9;
+        }
+        if(root->data == x){
+            return 0;
+        }
+        int leftHeight = height(root->left,x);
+        int RightHeight = height(root->right,x);
+        
+        if(leftHeight  == 1e9 && RightHeight == 1e9){
+            return 1e9;
+        }
+        return 1 + min(leftHeight,RightHeight);
+    }
+    int findDist(Node* root, int a, int b) {
+        Node* node = Lca(root,a,b); // this node contains the lowest common ancesstor
+        
+        if(node == NULL){
+            return -1;
+        }
+        int h1 = height(node,a);
+        int h2 = height(node,b);
+        return (h1+h2);
+    }
